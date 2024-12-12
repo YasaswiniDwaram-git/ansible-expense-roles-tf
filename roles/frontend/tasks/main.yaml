@@ -1,0 +1,33 @@
+- name: install nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: start nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: importing tasks from common
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-req
+
+- name: extract file
+  ansible.builtin.unarchive:
+    src: /tmp/frontend.zip #bydefault ansible thn=inks this is present in ansible server and we want it to move it to remote server
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+- name: copy expense app file to conf
+  ansible.builtin.template:
+    src: frontend.service.j2
+    dest: /etc/nginx/default.d/expense.conf
+  notify:
+  - Restart nginx
+
+# - name: restart nginx (this is commented , check handlers folder)
+#   ansible.builtin.service:
+#     name: nginx
+#     state: started

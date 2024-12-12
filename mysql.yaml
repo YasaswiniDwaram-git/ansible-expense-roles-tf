@@ -1,0 +1,7 @@
+- name: configure mysql server
+  hosts: mysql
+  become: yes # sudo is granted for remote server(also known as ansible node)
+  vars_files: 
+    - /var/expense/mysql_creds.yaml #this file is in ansible-server
+  roles:
+    - mysql

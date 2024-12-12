@@ -1,0 +1,8 @@
+- name: configure {{ component }} server
+  hosts: all
+  become: yes
+  vars_files:
+   - "variables-{{ environment }}.yaml" #since we are using same creds here
+  roles:
+    - "{{ component }}"
+  #2 vars must be passed component and environment using command line
