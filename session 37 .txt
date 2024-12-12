@@ -1,0 +1,45 @@
+session 37
+---------
+1.First create an ec2 instance 
+2.configure using Ansible -->
+3.Stop server
+4.take AMI --> we have a server AMI with new version 
+5.delete the instance that was created
+6.create launch template by giving --> ami,network, sg etc
+7.create target group
+8.create ASG(auto scaling group) using launch template and place them in TG
+9.create rule in Load balancer
+
+1.First create an ec2 instance for backend
+2.configure using Ansible 
+	Create ansible server and make connection to backend server from it
+	Ansible should connect to it 
+	install ansible , pull playbooks , run locally ----> we are following pull architecture here
+
+We use provisioners to install ansible on ec2 instance , so use remote provisioner ,connection block and inline 
+
+to trigger the provisioner , we use null resource (see on chatgpt or google )
+
+terraform --> shell --> ansible (tf using shell files , shell using ansible files )
+
+after copying .git contains the source from where currnt file is copied , so remove .git 
+
+To make folder as git repo - use git init
+--------------------------------------------
+
+This makes the folder as master , now do git branch -M main
+
+all done pushin ansible repor to git and ....
+
+now run backend folder on terraform..., since null_resource does not create any resource sometimes terraform will say the declared config is similar to actual config and wil not create it 
+
+in that case , we TAINT the null resource for terraform to identify and replace it checking the declared config
+
+terraform taint null_resource.backend 
+
+Stopped at 1hr 2 min
+
+for i in $(ls -dr */) ; do echo ${i%/}; cd  ${i%/} ; terraform destroy -auto-approve ; cd .. ; done
+
+for i in $(ls -d */) ; do echo ${i%/}; cd  ${i%/} ; terraform apply -auto-approve ; cd .. ; done
+
